@@ -16,10 +16,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        
-        
     }
     
     @IBAction func callToAction(_ sender: Any) {
@@ -37,11 +33,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
             break
             
-        case .restricted, .denied:
-            // Disable location features
-            disableMyLocationBasedFeatures()
-            break
-            
         case .authorizedWhenInUse:
             // Enable basic location features
             escalateLocationServiceAuthorization()
@@ -50,6 +41,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         case .authorizedAlways:
             // Enable any of your app's location features
             enableMyAlwaysFeatures()
+            break
+        default:
             break
         }
     }
@@ -60,14 +53,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("please enable always share location!")
             locationManager.requestAlwaysAuthorization()
         }
-    }
-    
-    func disableMyLocationBasedFeatures(){
-        
-    }
-    
-    func enableMyWhenInUseFeatures(){
-        
     }
     
     func enableMyAlwaysFeatures(){
