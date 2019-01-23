@@ -76,6 +76,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         //
         print("location is always shared!")
+        // Your coordinates go here (lat, lon)
+        let sliSystemsCoordinate = CLLocationCoordinate2DMake(-43.535822, 172.639964)
+        
+        /* Create a region centered on desired location,
+         choose a radius for the region (in meters)
+         choose a unique identifier for that region */
+        let sliSystemsRegion = CLCircularRegion(center: sliSystemsCoordinate,
+                                              radius: 100,
+                                              identifier: "sliSystemsRegion")
+        
+        
+        sliSystemsRegion.notifyOnEntry = true
+        sliSystemsRegion.notifyOnExit = false
+        
+        locationManager.startMonitoring(for: sliSystemsRegion)
+        
     }
 }
 

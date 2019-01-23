@@ -7,15 +7,19 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var locationManager: CLLocationManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        self.locationManager = CLLocationManager()
+        self.locationManager!.delegate = self
+        
         return true
     }
 
@@ -41,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+}
+extension AppDelegate : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // send the notification for region
+    }
 }
 
