@@ -8,19 +8,37 @@
 
 import UIKit
 import CoreLocation
+import UserNotifications
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
     let locationManager = CLLocationManager()
+    var notificationCenter: UNUserNotificationCenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // get the singleton object
+        self.notificationCenter = UNUserNotificationCenter.current()
+        // register as it's delegate
+        notificationCenter?.delegate = self
     }
     
     @IBAction func callToAction(_ sender: Any) {
         // check authorization status
         enableLocationServices()
+    }
+    
+    //MARK:- notification manager
+    func getNotificationPermission(){
+        // define what do you need permission to use
+        let options: UNAuthorizationOptions = [.alert, .sound]
+        
+        // request permission
+        notificationCenter?.requestAuthorization(options: options) { (granted, error) in
+            if !granted {
+                print("Permission not granted")
+            }
+        }
     }
     
     //MARK:- location manager
@@ -77,6 +95,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.startMonitoring(for: sliSystemsRegion)
         
+        // ask for notification permission
+        getNotificationPermission()
     }
 }
 
