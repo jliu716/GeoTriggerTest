@@ -13,14 +13,12 @@ import UserNotifications
 class ViewController: UIViewController, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
     let locationManager = CLLocationManager()
-    var notificationCenter: UNUserNotificationCenter?
+    var notificationCenter : UNUserNotificationCenter = UNUserNotificationCenter.current()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // get the singleton object
-        self.notificationCenter = UNUserNotificationCenter.current()
-        // register as it's delegate
-        notificationCenter?.delegate = self
+        locationManager.delegate = self
+        notificationCenter.delegate = self
     }
     
     @IBAction func callToAction(_ sender: Any) {
@@ -34,7 +32,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UNUserNotific
         let options: UNAuthorizationOptions = [.alert, .sound]
         
         // request permission
-        notificationCenter?.requestAuthorization(options: options) { (granted, error) in
+        notificationCenter.requestAuthorization(options: options) { (granted, error) in
             if !granted {
                 print("Permission not granted")
             }
@@ -43,8 +41,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UNUserNotific
     
     //MARK:- location manager
     func enableLocationServices() {
-        locationManager.delegate = self
-        
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
             // Request when-in-use authorization initially
